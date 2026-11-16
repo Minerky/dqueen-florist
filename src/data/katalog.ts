@@ -35,7 +35,7 @@ export const katalog: Katalog[] = [
   { slug: "buket-bunga", nama: "Buket Bunga", hal: 74, upd: "9 Nov 2026", v: "20261109", harga: "Mulai Rp100.000",
     desc: "Buket bunga segar, dari mawar sampai hortensia, cocok untuk anniversary dan ulang tahun. Gratis kartu ucapan.",
     file: "buket-bunga.pdf" },
-  { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 37, upd: "9 Nov 2026", v: "20261109", harga: "Mulai Rp45.000",
+  { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 26, upd: "16 Nov 2026", v: "20261116", harga: "Mulai Rp45.000",
     desc: "Pita dan jambul besar dari spon dan satin untuk dekorasi mobil, panggung, dan hadiah besar.",
     file: "pita-dekorasi.pdf" },
 ];
