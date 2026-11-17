@@ -76,7 +76,8 @@ body.lock{overflow:hidden}
   .info{display:none}.wa{display:none}
   .hint{padding:10px 12px 0}
   .grid{gap:1px;padding:0;margin-top:8px;background:var(--bg);border-block:1px solid var(--line)}
-  .pg{border:0;border-radius:0;background:#fff}
+  .pg{border:0;border-radius:0;background:#fff;outline:1px solid rgba(201,162,75,.7);outline-offset:-1px}
+  .pg:focus-visible{outline:3px solid var(--gold2);outline-offset:-3px}
   .batas{height:auto;margin:0;padding:16px 0;background:var(--bg)}
   .batas::after{content:"";display:block;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(201,162,75,0),var(--gold),rgba(201,162,75,0))}
   #kecil,#besar{display:none}
