@@ -3,7 +3,7 @@ import { WA, katalog } from "../data/katalog";
 import { grupBaru } from "../data/grup";
 import { terlarisHarian } from "../data/terlaris";
 // Diubah jadi objek {slug: {nama, file, v}} untuk dipakai script di bawah
-const katalogMap = Object.fromEntries([...katalog, ...terlarisHarian, ...grupBaru.flatMap((g) => g.items)].filter((k) => k.file).map((k) => [k.slug, { nama: k.nama, file: k.file, v: k.v }]));
+const katalogMap = Object.fromEntries([...katalog, ...terlarisHarian, ...grupBaru.flatMap((g) => g.items)].filter((k) => k.file).map((k) => [k.slug, { nama: k.nama, file: k.file, v: k.v, batas: (k as { batas?: { setelah: number; judul: string }[] }).batas ?? [] }]));
 ---
 <!doctype html>
 <html lang="id">
@@ -49,6 +49,12 @@ body.lock{overflow:hidden}
 .pg .no{position:absolute;left:8px;bottom:8px;font-size:.78rem;font-weight:600;color:var(--gold2);background:rgba(13,12,11,.82);border:1px solid var(--line);padding:2px 10px;border-radius:999px}
 
 .pg[hidden]{display:none}
+
+/* Pembatas antar bagian (mis. Model A -> Model B) */
+.batas{grid-column:1/-1;display:flex;align-items:center;gap:16px;margin:14px 0 6px;color:var(--gold2)}
+.batas::before,.batas::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(201,162,75,0),var(--gold),rgba(201,162,75,0))}
+.batas[hidden]{display:none}
+.batas-teks{font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;border:1px solid var(--gold);background:rgba(201,162,75,.12);padding:5px 15px;border-radius:999px}
 .pager{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px clamp(12px,3vw,32px) 24px}
 .pager[hidden]{display:none}
 .pager span{color:var(--mut);font-size:.9rem;text-align:center}
@@ -138,6 +144,14 @@ var pagesEl = document.getElementById("pages");
 var infoEl = document.getElementById("info");
 var hintEl = document.getElementById("hint");
 
+/* ===== Pembatas bagian katalog (mis. Model A -> Model B) ===== */
+var batas = (item && item.batas ? item.batas.slice() : []).sort(function (a, b) { return a.setelah - b.setelah; });
+function bagian(n) {
+  var label = "";
+  for (var i = 0; i < batas.length; i++) if (n > batas[i].setelah) label = batas[i].judul;
+  return label;
+}
+
 if (!item) {
   statusEl.textContent = "Katalog tidak ditemukan. Kembali ke beranda dan pilih katalog.";
 } else {
@@ -206,6 +220,25 @@ async function start() {
       b.innerHTML = '<span class="no">' + i + "</span>";
       pagesEl.appendChild(b);
       io.observe(b);
+
+      // Pembatas bagian setelah halaman tertentu (mis. Model B mulai di sini)
+      for (var bi = 0; bi < batas.length; bi++) {
+        if (batas[bi].setelah !== i) continue;
+        var sampai = pdf.numPages;
+        for (var bj = bi + 1; bj < batas.length; bj++) {
+          if (batas[bj].setelah > i) { sampai = batas[bj].setelah; break; }
+        }
+        var div = document.createElement("div");
+        div.className = "batas";
+        div.dataset.setelah = i;
+        div.setAttribute("role", "separator");
+        div.setAttribute("aria-label", batas[bi].judul + " mulai di halaman " + (i + 1));
+        var span = document.createElement("span");
+        span.className = "batas-teks";
+        span.textContent = batas[bi].judul + " · hal. " + (i + 1) + "–" + sampai;
+        div.appendChild(span);
+        pagesEl.appendChild(div);
+      }
     }
 
     /* ===== HP: 4 gambar (2x2) per halaman ===== */
@@ -222,7 +255,16 @@ async function start() {
       var from = (group - 1) * per;
       var to = Math.min(pdf.numPages, group * per);
       var kids = pagesEl.children;
-      for (var k = 0; k < kids.length; k++) kids[k].hidden = !(k >= from && k < to);
+      for (var k = 0; k < kids.length; k++) {
+        var el = kids[k];
+        if (el.classList.contains("pg")) {
+          var n = +el.dataset.n;
+          el.hidden = !(n > from && n <= to);
+        } else if (el.classList.contains("batas")) {
+          var s = +el.dataset.setelah;
+          el.hidden = !(s >= from && s < to);
+        }
+      }
       pgLabel.textContent = "Hal. " + (from + 1) + "-" + to + " dari " + pdf.numPages;
       pgPrev.disabled = group <= 1;
       pgNext.disabled = group >= groups;
@@ -265,11 +307,12 @@ async function start() {
     async function show(n) {
       cur = n;
       var my = ++token;
-      lbNo.textContent = "Halaman " + n + " / " + pdf.numPages;
+      var label = bagian(n);
+      lbNo.textContent = "Halaman " + n + " / " + pdf.numPages + (label ? " · " + label : "");
       prev.disabled = n <= 1;
       next.disabled = n >= pdf.numPages;
       document.getElementById("lbWa").href = "https://wa.me/" + WA + "?text=" +
-        encodeURIComponent("Halo dQueen Florist, saya mau tanya produk di katalog " + item.nama + " halaman " + n + ".");
+        encodeURIComponent("Halo dQueen Florist, saya mau tanya produk di katalog " + item.nama + (label ? " (" + label + ")" : "") + " halaman " + n + ".");
       lbBody.textContent = "Memuat halaman...";
       var page = await pdf.getPage(n);
       var base = page.getViewport({ scale: 1 });
