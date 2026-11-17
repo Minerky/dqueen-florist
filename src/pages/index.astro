@@ -101,7 +101,7 @@ const faq = [
     <a href="#faq">FAQ</a>
     <a href="#lokasi">Lokasi</a>
   </nav>
-  <a class="pill" href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">Pesan sekarang</a>
+  <a class="pill" href={wa("Halo,\nSaya serius mau memesan produk dQueen Florist.\nApakah bisa dibantu?")} target="_blank" rel="noopener">Pesan sekarang</a>
 </header>
 
 <main id="atas">
@@ -112,7 +112,7 @@ const faq = [
       <p class="lead">Bunga box, buket bunga, bunga papan, pita peresmian, dan pita dekorasi. Dibuat dengan tangan di Jakarta Pusat, dengan warna yang bisa kamu atur sendiri.</p>
       <div class="hero-cta">
         <a class="btn gold" href="#katalog">Lihat katalog</a>
-        <a class="btn ghost" href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">Chat WhatsApp</a>
+        <a class="btn ghost" href={wa("Halo,\nSaya serius mau memesan produk dQueen Florist.\nApakah bisa dibantu?")} target="_blank" rel="noopener">Chat WhatsApp</a>
       </div>
     </div>
     <div class="stack" aria-hidden="true">
@@ -177,7 +177,7 @@ const faq = [
             {(p.hal > 0 || p.upd) && <p class="best-meta">{p.hal > 0 ? `${p.hal} halaman, ` : ""}diperbarui {p.upd}</p>}
             <div class="row">
               {p.file && <a class="btn gold sm" href={`/baca?f=${p.slug}`}>Buka katalog</a>}
-              <a class={p.file ? "btn ghost sm" : "btn gold sm"} href={wa(`Halo dQueen Florist, saya mau pesan ${p.nama}.`)} target="_blank" rel="noopener">Pesan sekarang</a>
+              <a class={p.file ? "btn ghost sm" : "btn gold sm"} href={wa(`(BLT) Halo, saya serius mau memesan produk dQueen Florist: ${p.nama}. Apakah bisa dibantu?`)} target="_blank" rel="noopener">Pesan sekarang</a>
             </div>
           </div>
         </article>
@@ -295,13 +295,13 @@ const faq = [
 <footer>
   <p class="brand">dQueen <em>Florist</em></p>
   <p>Toko bunga di Jakarta Pusat. Harga dan produk mengikuti update terbaru saat order.</p>
-  <p><a href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">WhatsApp 0816-1456-508</a> | <a href={wa2("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener">WhatsApp alternatif 0816-991-971</a> | <a href={SHOPEE} target="_blank" rel="noopener">Shopee</a></p>
+  <p><a href={wa("(BLT) Halo, saya serius mau memesan produk dQueen Florist. Apakah bisa dibantu?")} target="_blank" rel="noopener">WhatsApp 0816-1456-508</a> | <a href={wa2("(BLT) Halo, saya serius mau memesan produk dQueen Florist. Apakah bisa dibantu?")} target="_blank" rel="noopener">WhatsApp alternatif 0816-991-971</a> | <a href={SHOPEE} target="_blank" rel="noopener">Shopee</a></p>
   <p><a href={INSTAGRAM} target="_blank" rel="noopener">Instagram @dqueenflorist_19</a> | <a href={TIKTOK} target="_blank" rel="noopener">TikTok @dqueenflorist_19</a></p>
 </footer>
 
 <span class="mark">Developed by Pradista</span>
 
-<a class="float" href={wa("Halo dQueen Florist, saya mau pesan.")} target="_blank" rel="noopener" aria-label="Chat WhatsApp">Chat WA</a>
+<a class="float" href={wa("(BLT) Halo, saya serius mau memesan produk dQueen Florist. Apakah bisa dibantu?")} target="_blank" rel="noopener" aria-label="Chat WhatsApp">Chat WA</a>
 
 </body>
 </html>
