@@ -52,13 +52,6 @@ body.lock{overflow:hidden}
 
 /* Pembatas antar bagian (mis. Model A -> Model B) */
 .batas{grid-column:1/-1;display:block;height:2px;margin:16px 0;border-radius:2px;background:linear-gradient(90deg,rgba(201,162,75,0),var(--gold),rgba(201,162,75,0))}
-.batas[hidden]{display:none}
-.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px clamp(12px,3vw,32px) 24px}
-.pager[hidden]{display:none}
-.pager span{color:var(--mut);font-size:.9rem;text-align:center}
-.pager button{border:1.5px solid var(--gold);background:transparent;color:var(--gold2);font:inherit;font-weight:600;padding:10px 16px;border-radius:999px;cursor:pointer}
-.pager button:hover{background:rgba(201,162,75,.14)}
-.pager button:disabled{opacity:.35;cursor:default}
 
 .lb{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:rgba(8,7,6,.96)}
 .lb.open{display:flex}
@@ -84,9 +77,9 @@ body.lock{overflow:hidden}
   .hint{padding:10px 12px 0}
   .grid{gap:1px;padding:0;margin-top:8px;background:var(--gold);border-block:1px solid var(--gold)}
   .pg{border:0;border-radius:0;background:#fff}
-  .pg .no{display:none}
+  .batas{height:auto;margin:0;padding:16px 0;background:var(--bg)}
+  .batas::after{content:"";display:block;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(201,162,75,0),var(--gold),rgba(201,162,75,0))}
   #kecil,#besar{display:none}
-  .pager{padding:10px 8px 76px}
   .lb-main{position:relative;padding:8px 4px}
   .lb button{width:36px;height:36px}
   #lbPrev,#lbNext{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:rgba(13,12,11,.75)}
@@ -110,11 +103,6 @@ body.lock{overflow:hidden}
   <p id="status" class="status">Memuat katalog...</p>
   <p id="hint" class="hint" hidden>Klik halaman untuk melihat lebih besar. Pakai tombol + dan - untuk mengatur ukuran kotak.</p>
   <div id="pages" class="grid"></div>
-  <nav id="pager" class="pager" aria-label="Pindah halaman katalog" hidden>
-    <button id="pgPrev" type="button">Sebelumnya</button>
-    <span id="pgLabel"></span>
-    <button id="pgNext" type="button">Berikutnya</button>
-  </nav>
 
   <div id="lb" class="lb" role="dialog" aria-modal="true" aria-label="Halaman katalog">
     <div class="lb-top">
@@ -226,43 +214,8 @@ async function start() {
       }
     }
 
-    /* ===== HP: 4 gambar (2x2) per halaman ===== */
-    var per = 4;
-    var groups = Math.ceil(pdf.numPages / per);
-    var pager = document.getElementById("pager");
-    var pgPrev = document.getElementById("pgPrev");
-    var pgNext = document.getElementById("pgNext");
-    var pgLabel = document.getElementById("pgLabel");
-    var group = 1;
-
-    function showGroup(g, noScroll) {
-      group = Math.max(1, Math.min(groups, g));
-      var from = (group - 1) * per;
-      var to = Math.min(pdf.numPages, group * per);
-      var kids = pagesEl.children;
-      for (var k = 0; k < kids.length; k++) {
-        var el = kids[k];
-        if (el.classList.contains("pg")) {
-          var n = +el.dataset.n;
-          el.hidden = !(n > from && n <= to);
-        } else if (el.classList.contains("batas")) {
-          var s = +el.dataset.setelah;
-          el.hidden = !(s >= from && s < to);
-        }
-      }
-      pgLabel.textContent = "Hal. " + (from + 1) + "-" + to + " dari " + pdf.numPages;
-      pgPrev.disabled = group <= 1;
-      pgNext.disabled = group >= groups;
-      if (!noScroll) window.scrollTo(0, 0);
-    }
-
-    if (!desktop) {
-      hintEl.textContent = "Ketuk gambar untuk memperbesar.";
-      pager.hidden = false;
-      pgPrev.onclick = function () { showGroup(group - 1); };
-      pgNext.onclick = function () { showGroup(group + 1); };
-      showGroup(1, true);
-    }
+    /* ===== HP: scroll seperti desktop ===== */
+    if (!desktop) hintEl.textContent = "Ketuk gambar untuk memperbesar.";
 
     pagesEl.addEventListener("click", function (e) {
       var b = e.target.closest(".pg");
@@ -325,7 +278,6 @@ async function start() {
       token++;
       lb.classList.remove("open");
       document.body.classList.remove("lock");
-      if (!desktop) showGroup(Math.ceil(cur / per), true);
       lbBody.textContent = "";
     }
 
