@@ -29,7 +29,8 @@ export const katalog: Katalog[] = [
   { slug: "pita-peresmian", nama: "Pita Peresmian", hal: 102, upd: "17 Nov 2026", v: "20261117", harga: "Mulai Rp60.000",
     desc: "Pompom dan jambul untuk gunting pita peresmian, lengkap dengan pita hias, gunting, dan tali satin. Diameter dan warna bisa custom.",
     file: "pita-peresmian.pdf",
-    batas: [{ setelah: 14, judul: "Model B" }, { setelah: 24, judul: "Model B" }] },
+    batas: [{ setelah: 14, judul: "Model B" }, 
+            { setelah: 24, judul: "Model B" },] },
   { slug: "bunga-papan-akrilik", nama: "Bunga Papan Akrilik", hal: 53, upd: "11 Nov 2026", v: "20261111", harga: "Mulai Rp550.000",
     desc: "Papan bunga akrilik dan PVC dengan bunga artificial dan kaki kayu natural, tinggi total sekitar 1,3 m. Bunga bisa custom.",
     file: "bunga-papan-akrilik.pdf" },
@@ -41,7 +42,9 @@ export const katalog: Katalog[] = [
     file: "buket-bunga.pdf" },
   { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 30, upd: "18 Nov 2026", v: "20261118", harga: "Mulai Rp45.000",
     desc: "Pita dan jambul besar dari spon dan satin untuk dekorasi mobil, panggung, dan hadiah besar.",
-    file: "pita-dekorasi.pdf" },
+    file: "pita-dekorasi.pdf", 
+    batas: [{ setelah: 13, judul: "Model " }, 
+            { setelah: 23, judul: "Model B" },]},
 ];
 
 // Yang tampil di beranda (katalog dengan tampil: false tidak ikut)
