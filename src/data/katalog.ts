@@ -37,7 +37,7 @@ export const katalog: Katalog[] = [
   { slug: "bunga-papan-biasa", nama: "Bunga Papan Biasa", hal: 33, upd: "5 Okt 2026", v: "20261005", harga: "Mulai Rp500.000",
     desc: "Papan bunga ucapan ukuran besar, mulai 200 x 130 cm, untuk selamat, ulang tahun, dan duka cita.",
     file: "bunga-papan-biasa.pdf" },
-  { slug: "buket-bunga", nama: "Buket Bunga", hal: 74, upd: "9 Nov 2026", v: "20261109", harga: "Mulai Rp100.000",
+  { slug: "buket-bunga", nama: "Buket Bunga", hal: 66, upd: "18 Nov 2026", v: "20261118", harga: "Mulai Rp100.000",
     desc: "Buket bunga segar, dari mawar sampai hortensia, cocok untuk anniversary dan ulang tahun. Gratis kartu ucapan.",
     file: "buket-bunga.pdf" },
   { slug: "pita-dekorasi", nama: "Pita Dekorasi", hal: 30, upd: "18 Nov 2026", v: "20261118", harga: "Mulai Rp45.000",
